@@ -2,9 +2,7 @@
 <html>
 <head>
     <title>Connexion / Inscription</title>
-    <style>
-        form { border: 1px solid #ccc; padding: 15px; margin-bottom: 20px; width: 300px; }
-    </style>
+    
 </head>
 <body>
 
@@ -15,11 +13,14 @@
     <button type="submit">Connexion</button>
 </form>
 
-<h2>Créer un compte</h2>
+<h2>Creer un compte</h2>
 <form action="../inc/inscription.php" method="POST" enctype="multipart/form-data">
     <input name="nom" placeholder="Nom" required><br>
     <input type="date" name="date_naissance" required><br>
-    <select name="genre"><option>H</option><option>F</option></select><br>
+    <select name="genre">   
+                            <option>H</option>
+                            <option>F</option></select>
+                        <br>
     <input name="email" placeholder="Email" required><br>
     <input name="ville" placeholder="Ville" required><br>
     <input type="password" name="mdp" placeholder="Mot de passe" required><br>

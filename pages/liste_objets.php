@@ -1,25 +1,11 @@
 <?php
 session_start();
 include("../inc/fonction.php");
-$bdd = connexionBDD();
 
-// Filtrage
 $filtre = isset($_GET["categorie"]) ? $_GET["categorie"] : "";
 
-$sql = "SELECT o.*, c.nom_categorie, e.date_retour
-        FROM objet o
-        JOIN categorie_objet c ON o.id_categorie = c.id_categorie
-        LEFT JOIN emprunt e ON o.id_objet = e.id_objet AND e.date_retour >= CURDATE()";
-
-if ($filtre != "") {
-    $sql .= " WHERE o.id_categorie = $filtre";
-}
-
-$res = mysqli_query($bdd, $sql);
-
-// Liste des categories
-$cat_sql = "SELECT * FROM categorie_objet";
-$cat_res = mysqli_query($bdd, $cat_sql);
+$res = getObjets($filtre);
+$cat_res = getCategories();
 ?>
 
 <!DOCTYPE html>

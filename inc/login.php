@@ -1,22 +1,20 @@
 <?php
 session_start();
 include("fonction.php");
+ini_set('display_errors', 1); error_reporting(E_ALL);
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $bdd = connexionBDD();
     $email = $_POST["email"];
     $mdp = $_POST["mdp"];
 
-    $sql = "SELECT * FROM membre WHERE email = '$email' AND mdp = '$mdp'";
-    $res = mysqli_query($bdd, $sql);
-    $data = mysqli_fetch_assoc($res);
+    $user = verifierConnexion($email, $mdp);
 
-    if ($data) {
-        $_SESSION["id_membre"] = $data["id_membre"];
+    if ($user) {
+        $_SESSION["id_membre"] = $user["id_membre"];
         header("Location: ../pages/liste_objets.php");
+        exit();
     } else {
         echo "Email ou mot de passe incorrect";
     }
 }
 ?>
-

@@ -1,20 +1,32 @@
 <?php
 include("fonction.php");
+ini_set('display_errors', 1); error_reporting(E_ALL);
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $bdd = connexionBDD();
-
     $nom = $_POST["nom"];
     $date = $_POST["date_naissance"];
     $genre = $_POST["genre"];
     $email = $_POST["email"];
     $ville = $_POST["ville"];
     $mdp = $_POST["mdp"];
+    $image = $_POST["image"];
 
-    $sql = "INSERT INTO membre (nom, date_naissance, genre, email, ville, mdp, image_profil)
-            VALUES ('$nom', '$date', '$genre', '$email', '$ville', '$mdp')";
-    mysqli_query($bdd, $sql);
+    if (insererMembre($nom, $date, $genre, $email, $ville, $mdp, $image)) {
+        header("Location: ../index.php");
+        exit();
+    } else {
+        echo "Erreur lors de l'inscription.";
+    }
+}
+function verifierConnexion($email, $mdp) {
+    $bdd = connexionBDD();
+    $sql = "SELECT * FROM S2_membre WHERE email = '$email' AND mdp = '$mdp'";
+    $res = mysqli_query($bdd, $sql);
 
-    header("Location: ../index.php");
+    if ($res && mysqli_num_rows($res) > 0) {
+        return mysqli_fetch_assoc($res);
+    } else {
+        return false; /
+    }
 }
 ?>

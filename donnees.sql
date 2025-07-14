@@ -1,7 +1,4 @@
-CREATE DATABASE WEBS2;
-Use WEBS2;
-
-CREATE TABLE membre (
+CREATE TABLE S2_membre (
     id_membre INT AUTO_INCREMENT PRIMARY KEY,
     nom VARCHAR(50),
     date_naissance DATE,
@@ -12,82 +9,113 @@ CREATE TABLE membre (
     image_profil VARCHAR(100)
 );
 
-CREATE TABLE categorie_objet (
+CREATE TABLE S2_categorie_objet (
     id_categorie INT AUTO_INCREMENT PRIMARY KEY,
     nom_categorie VARCHAR(50)
 );
 
-CREATE TABLE objet (
+CREATE TABLE S2_objet (
     id_objet INT AUTO_INCREMENT PRIMARY KEY,
     nom_objet VARCHAR(100),
     id_categorie INT,
     id_membre INT,
-    FOREIGN KEY (id_categorie) REFERENCES categorie_objet(id_categorie),
-    FOREIGN KEY (id_membre) REFERENCES membre(id_membre)
+    FOREIGN KEY (id_categorie) REFERENCES S2_categorie_objet(id_categorie),
+    FOREIGN KEY (id_membre) REFERENCES S2_membre(id_membre)
 );
 
-CREATE TABLE images_objet (
+CREATE TABLE S2_images_objet (
     id_image INT AUTO_INCREMENT PRIMARY KEY,
     id_objet INT,
     nom_image VARCHAR(100),
-    FOREIGN KEY (id_objet) REFERENCES objet(id_objet)
+    FOREIGN KEY (id_objet) REFERENCES S2_objet(id_objet)
 );
 
-CREATE TABLE emprunt (
+CREATE TABLE S2_emprunt (
     id_emprunt INT AUTO_INCREMENT PRIMARY KEY,
     id_objet INT,
     id_membre INT,
     date_emprunt DATE,
     date_retour DATE,
-    FOREIGN KEY (id_objet) REFERENCES objet(id_objet),
-    FOREIGN KEY (id_membre) REFERENCES membre(id_membre)
+    FOREIGN KEY (id_objet) REFERENCES S2_objet(id_objet),
+    FOREIGN KEY (id_membre) REFERENCES S2_membre(id_membre)
 );
+USE dbname;
 
-INSERT INTO membre (nom, date_naissance, genre, email, ville, mdp, image_profil) VALUES
-('Ali', '1995-03-10', 'H', 'ali@mail.com', 'Tana', 'pass1', 'ali.jpg'),
-('Sara', '1998-07-21', 'F', 'sara@mail.com', 'Fianarantsoa', 'pass2', 'sara.jpg'),
-('Marc', '1990-11-05', 'H', 'marc@mail.com', 'Majunga', 'pass3', 'marc.jpg'),
-('Lina', '2000-02-28', 'F', 'lina@mail.com', 'Tamatave', 'pass4', 'lina.jpg');
+-- Membres (4)
+INSERT INTO S2_membre (nom, date_naissance, genre, email, ville, mdp, image_profil) VALUES
+('Alice', '1990-05-12', 'F', 'alice@mail.com', 'Antananarivo', 'mdpAlice', 'alice.jpg'),
+('Bob', '1985-10-01', 'H', 'bob@mail.com', 'Toamasina', 'mdpBob', 'bob.jpg'),
+('Claire', '1992-08-22', 'F', 'claire@mail.com', 'Fianarantsoa', 'mdpClaire', 'claire.jpg'),
+('David', '1988-03-15', 'H', 'david@mail.com', 'Antsirabe', 'mdpDavid', 'david.jpg');
 
-INSERT INTO categorie_objet (nom_categorie) VALUES
+-- Categories (4)
+INSERT INTO S2_categorie_objet (nom_categorie) VALUES
 ('esthetique'),
 ('bricolage'),
 ('mecanique'),
 ('cuisine');
 
--- 10 objets pour Ali (id_membre = 1)
-INSERT INTO objet (nom_objet, id_categorie, id_membre) VALUES
-('peigne', 1, 1), ('miroir', 1, 1), ('tournevis', 2, 1), ('marteau', 2, 1),
-('cle plate', 3, 1), ('cle a molette', 3, 1), ('poele', 4, 1), ('mixeur', 4, 1),
-('trousse maquillage', 1, 1), ('brosse a cheveux', 1, 1);
+-- Objets (10 par membre = 40 objets)
+-- On répartit les objets en boucle sur catégories (1 à 4), pour simplifier
 
--- 10 objets pour Sara (id_membre = 2)
-INSERT INTO objet (nom_objet, id_categorie, id_membre) VALUES
-('fer a lisser', 1, 2), ('lime a ongles', 1, 2), ('perceuse', 2, 2), ('clou', 2, 2),
-('cric', 3, 2), ('cle dynamometrique', 3, 2), ('moule gateau', 4, 2), ('balance', 4, 2),
-('palette maquillage', 1, 2), ('epilateur', 1, 2);
+INSERT INTO S2_objet (nom_objet, id_categorie, id_membre) VALUES
+-- Alice (id_membre=1)
+('Vernis à ongles', 1, 1),
+('Perceuse', 2, 1),
+('Clé à molette', 3, 1),
+('Mixeur', 4, 1),
+('Fond de teint', 1, 1),
+('Marteau', 2, 1),
+('Pneu de vélo', 3, 1),
+('Casserole', 4, 1),
+('Mascara', 1, 1),
+('Tournevis', 2, 1),
 
--- 10 objets pour Marc (id_membre = 3)
-INSERT INTO objet (nom_objet, id_categorie, id_membre) VALUES
-('pinceau peinture', 2, 3), ('visseuse', 2, 3), ('tournevis plat', 2, 3), ('compresseur', 3, 3),
-('cle allen', 3, 3), ('poele wok', 4, 3), ('four electrique', 4, 3), ('grille pain', 4, 3),
-('tondeuse', 1, 3), ('shampoing', 1, 3);
+-- Bob (id_membre=2)
+('Rouge à lèvres', 1, 2),
+('Scie sauteuse', 2, 2),
+('Batterie auto', 3, 2),
+('Poêle', 4, 2),
+('Crème visage', 1, 2),
+('Clé anglaise', 3, 2),
+('Perceuse-visseuse', 2, 2),
+('Fouet', 4, 2),
+('Sèche-cheveux', 1, 2),
+('Pince multiprise', 3, 2),
 
--- 10 objets pour Lina (id_membre = 4)
-INSERT INTO objet (nom_objet, id_categorie, id_membre) VALUES
-('rouge a levre', 1, 4), ('fard a paupieres', 1, 4), ('scie', 2, 4), ('niveau', 2, 4),
-('pneu', 3, 4), ('pompe', 3, 4), ('robot cuisine', 4, 4), ('mixer', 4, 4),
-('parfum', 1, 4), ('crayon yeux', 1, 4);
+-- Claire (id_membre=3)
+('Sérum', 1, 3),
+('Tournevis cruciforme', 2, 3),
+('Filtre à huile', 3, 3),
+('Robot de cuisine', 4, 3),
+('Poudre libre', 1, 3),
+('Niveau à bulle', 2, 3),
+('Embrayage', 3, 3),
+('Planche à découper', 4, 3),
+('Lisseur', 1, 3),
+('Couteau de cuisine', 4, 3),
 
-INSERT INTO emprunt (id_objet, id_membre, date_emprunt, date_retour) VALUES
-(1, 2, '2025-07-01', '2025-07-07'),
-(3, 3, '2025-07-02', '2025-07-08'),
-(5, 4, '2025-07-03', '2025-07-09'),
-(12, 1, '2025-07-04', '2025-07-10'),
-(14, 3, '2025-07-05', '2025-07-11'),
-(18, 1, '2025-07-06', '2025-07-12'),
-(24, 2, '2025-07-07', '2025-07-13'),
-(27, 4, '2025-07-08', '2025-07-14'),
-(33, 1, '2025-07-09', '2025-07-15'),
-(35, 2, '2025-07-10', '2025-07-16');
+-- David (id_membre=4)
+('Crème solaire', 1, 4),
+('Cloueuse', 2, 4),
+('Amortisseur', 3, 4),
+('Mixeur plongeant', 4, 4),
+('Baume à lèvres', 1, 4),
+('Perceuse à colonne', 2, 4),
+('Filtre à air', 3, 4),
+('Balance de cuisine', 4, 4),
+('Mousse coiffante', 1, 4),
+('Tournevis plat', 2, 4);
 
+-- Emprunts (10 au total, quelques objets empruntés par certains membres)
+INSERT INTO S2_emprunt (id_objet, id_membre, date_emprunt, date_retour) VALUES
+(2, 2, '2025-07-01', '2025-07-10'),
+(5, 3, '2025-06-20', '2025-07-05'),
+(8, 1, '2025-07-05', '2025-07-15'),
+(11, 4, '2025-07-02', '2025-07-12'),
+(14, 1, '2025-06-25', '2025-07-04'),
+(19, 2, '2025-07-07', '2025-07-17'),
+(22, 3, '2025-07-03', '2025-07-13'),
+(25, 4, '2025-07-01', '2025-07-11'),
+(30, 1, '2025-07-06', '2025-07-16'),
+(33, 2, '2025-07-04', '2025-07-14');

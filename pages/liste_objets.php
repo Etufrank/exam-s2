@@ -13,12 +13,11 @@ $cat_res = getCategories();
 <head>
     <meta charset="UTF-8">
     <title>Liste des objets</title>
-    <style>
-        body { font-family: Arial, sans-serif; margin: 20px; }
-        .objet { border: 1px solid #ccc; padding: 10px; margin-bottom: 10px; border-radius: 4px; }
-        .dispo { color: green; }
-        .emprunte { color: red; }
-    </style>
+    <link rel="stylesheet" href="../assets/css/bootstrap.min.css">
+
+    <link rel="stylesheet" href="../assets/css/liste.css">
+
+
 </head>
 <body>
 

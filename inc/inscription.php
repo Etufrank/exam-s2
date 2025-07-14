@@ -9,24 +9,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $email = $_POST["email"];
     $ville = $_POST["ville"];
     $mdp = $_POST["mdp"];
-    $image = $_POST["image"];
+    $image = $_POST["image"];  
 
     if (insererMembre($nom, $date, $genre, $email, $ville, $mdp, $image)) {
-        header("Location: ../index.php");
+        header("Location: ../pages/index.php");
         exit();
     } else {
         echo "Erreur lors de l'inscription.";
-    }
-}
-function verifierConnexion($email, $mdp) {
-    $bdd = connexionBDD();
-    $sql = "SELECT * FROM S2_membre WHERE email = '$email' AND mdp = '$mdp'";
-    $res = mysqli_query($bdd, $sql);
-
-    if ($res && mysqli_num_rows($res) > 0) {
-        return mysqli_fetch_assoc($res);
-    } else {
-        return false; /
     }
 }
 ?>

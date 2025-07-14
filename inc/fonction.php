@@ -37,5 +37,17 @@ function insererMembre($nom, $date_naissance, $genre, $email, $ville, $mdp, $ima
 
     return mysqli_query($bdd, $sql);
 }
+function verifierConnexion($email, $mdp) {
+    $bdd = connexionBDD();
+    $sql = "SELECT * FROM S2_membre WHERE email = '$email' AND mdp = '$mdp'";
+    $res = mysqli_query($bdd, $sql);
+
+    if ($res && mysqli_num_rows($res) > 0) {
+        return mysqli_fetch_assoc($res); 
+    } else {
+        return false;
+    }
+}
+
 ?>
 

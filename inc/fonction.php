@@ -1,6 +1,6 @@
 <?php
 function connexionBDD() {
-    $host = "172.60.0.15";
+    $host = "localhost";
     $user = "ETU004223";
     $pass = "8kEa3yOe";
     $db = "db_s2_ETU004223";
@@ -48,6 +48,36 @@ function verifierConnexion($email, $mdp) {
         return false;
     }
 }
+function ajouterImageObjet($id_objet, $fichier_image) {
+    $bdd = connexionBDD();
 
+
+    $dossier_upload = __DIR__ . '/../uploads/';
+
+    
+    $nom_fichier = basename($fichier_image['name']);
+
+    
+    $chemin_destination = $dossier_upload . $nom_fichier;
+
+    
+    if (move_uploaded_file($fichier_image['tmp_name'], $chemin_destination)) {
+        
+        $sql = "INSERT INTO S2_images_objet (id_objet, nom_image) VALUES ('$id_objet', '$nom_fichier')";
+        if (mysqli_query($bdd, $sql)) {
+            return true;
+        } else {
+            
+            return "Erreur SQL : " . mysqli_error($bdd);
+        }
+    } else {
+        return "Erreur lors du déplacement du fichier.";
+    }
+}
+function getImagesObjet($id_objet) {
+    $bdd = connexionBDD();
+    $sql = "SELECT nom_image FROM S2_images_objet WHERE id_objet = $id_objet";
+    return mysqli_query($bdd, $sql);
+}
 ?>
 
